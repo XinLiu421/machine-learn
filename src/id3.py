@@ -5,7 +5,7 @@
 __author__ = 'xin.liu'
 
 import pandas as pd
-from decision.src.decision_tree import tree_generate
+from src.decision_tree import tree_generate
 
 
 def prepare_data():

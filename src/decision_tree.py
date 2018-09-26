@@ -51,7 +51,7 @@ def value_count(data_arr):
 
 
 def cal_info_gain(df, index):
-    info_gain = info_ent(df.values[:,-1])
+    info_gain = info_ent(df.values[:, -1])
     div_value = 0
 
     n = len(df[index])
@@ -59,7 +59,7 @@ def cal_info_gain(df, index):
     # 1 处理 连续变量
     if df[index].dtypes == (float, int):
         sub_info_ent = {}
-        df = df.sort([index], ascending=1)
+        df = df.sort_values(by=index, ascending=1)
         df = df.reset_index(drop=True)
 
         data_arr = df[index]
@@ -69,8 +69,8 @@ def cal_info_gain(df, index):
             div = (data_arr[i] + data_arr[i+1]) / 2
             sub_info_ent[div] = ((i+1) * info_ent(label_arr[0:i+1]) / n) \
                                 + ((n-i-1) * info_ent(label_arr[i+1:-1]) / n)
-            div_value, sub_info_ent_max = min(sub_info_ent.items(), key=lambda x: x[1])
-            info_gain -= sub_info_ent_max
+        div_value, sub_info_ent_max = min(sub_info_ent.items(), key=lambda x: x[1])
+        info_gain -= sub_info_ent_max
 
     # 2 处理 分类变量
     else:
@@ -88,8 +88,11 @@ def get_opt_attr(df):
 
     for attr_id in df.columns[0:-1]:
         info_gain_tmp, div_value_tmp = cal_info_gain(df, attr_id)
-        print(attr_id)
-    return ''
+        if info_gain_tmp > info_gain:
+            info_gain = info_gain_tmp
+            opt_attr = attr_id
+            div_value = div_value_tmp
+    return opt_attr, div_value
 
 
 def tree_generate(df):
@@ -105,6 +108,9 @@ def tree_generate(df):
 
         new_node.attr, div_value = get_opt_attr(df)
 
-
+        if div_value == 0:
+            value_counts = value_count(df[new_node.attr])
+            for value in value_counts:
+                df_v = df[df[new_node.attr].isin([value])]
 
 
