@@ -115,5 +115,14 @@ def tree_generate(df):
                 df_v = df[df[new_node.attr].isin([value])]
                 df_drop = df_v.drop(new_node.attr, 1)
                 new_node.attr_down[value] = tree_generate(df_drop)
+        # 选出的节点为连续变量
+        else:
+            value_l = "<=%.3f" % div_value
+            value_r = ">%.3f" % div_value
+            df_v_l = df[df[new_node.attr] <= div_value]
+            df_v_r = df[df[new_node.attr] >= div_value]
+            new_node.attr_down[value_l] = tree_generate(df_v_l)
+            new_node.attr_down[value_r] = tree_generate(df_v_r)
+    return new_node
 
 
