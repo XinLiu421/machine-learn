@@ -9,14 +9,11 @@ from src.decision_tree import tree_generate
 
 
 def prepare_data():
-    data = pd.read_csv("../data/decision_tree.csv")
-    return data
-
-
-# def test_decision_tree():
+    id3_data = pd.read_csv("../data/decision_tree.csv")
+    return id3_data
 
 
 if __name__ == '__main__':
-    data = prepare_data()
-    tree = tree_generate(data)
-    print(tree)
+    id3_data = prepare_data()
+    decision_tree = tree_generate(id3_data)
+    print(decision_tree)
