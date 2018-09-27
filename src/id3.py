@@ -9,7 +9,7 @@ from src.decision_tree import tree_generate
 
 
 def prepare_data():
-    data = pd.read_csv("../data/test.csv")
+    data = pd.read_csv("../data/decision_tree.csv")
     return data
 
 
@@ -18,4 +18,5 @@ def prepare_data():
 
 if __name__ == '__main__':
     data = prepare_data()
-    tree_generate(data)
+    tree = tree_generate(data)
+    print(tree)
