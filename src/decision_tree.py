@@ -108,9 +108,12 @@ def tree_generate(df):
 
         new_node.attr, div_value = get_opt_attr(df)
 
+        # 选出的节点为分类变量
         if div_value == 0:
             value_counts = value_count(df[new_node.attr])
             for value in value_counts:
                 df_v = df[df[new_node.attr].isin([value])]
+                df_drop = df_v.drop(new_node.attr, 1)
+                new_node.attr_down[value] = tree_generate(df_drop)
 
 
