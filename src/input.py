@@ -5,7 +5,7 @@
 __author__ = 'xin.liu'
 
 import pandas as pd
-from src.id3 import tree_generate
+from src.id3 import TreeGenerate
 
 
 def prepare_data():
@@ -15,5 +15,5 @@ def prepare_data():
 
 if __name__ == '__main__':
     id3_data = prepare_data()
-    decision_tree = tree_generate(id3_data)
+    decision_tree = TreeGenerate(id3_data)
     print(decision_tree)
